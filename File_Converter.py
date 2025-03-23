@@ -3,7 +3,6 @@ import pandas as pd
 from pydub import AudioSegment
 from PIL import Image
 from moviepy import VideoFileClip
-from pdf2image import convert_from_path
 from PyPDF2 import PdfReader
 from docx import Document
 
@@ -52,16 +51,6 @@ def convert_xlsx_to_csv(file_path):
     except Exception as e:
         print(f"Error converting XLSX to CSV: {e}")
 
-def convert_pdf_to_images(file_path):
-    try:
-        images = convert_from_path(file_path)
-        for i, image in enumerate(images):
-            output_file = f"{os.path.splitext(file_path)[0]}_page_{i + 1}.png"
-            image.save(output_file, 'PNG')
-            print(f"PDF page {i + 1} converted to {output_file}")
-    except Exception as e:
-        print(f"Error converting PDF to images: {e}")
-
 def extract_text_from_pdf(file_path):
     try:
         reader = PdfReader(file_path)
@@ -101,14 +90,13 @@ def main():
         print("3. Convert Video")
         print("4. Convert CSV to XLSX")
         print("5. Convert XLSX to CSV")
-        print("6. Convert PDF to Images")
-        print("7. Extract Text from PDF")
-        print("8. Convert DOCX to TXT")
-        print("9. Exit")
+        print("6. Extract Text from PDF")
+        print("7. Convert DOCX to TXT")
+        print("8. Exit")
 
-        choice = input("Select an option (1-9): ").strip()
+        choice = input("Select an option (1-8): ").strip()
 
-        if choice == '9':
+        if choice == '8':
             print("Exiting the program.")
             break
 
@@ -135,10 +123,8 @@ def main():
             elif choice == '5' and file_path.lower().endswith('.xlsx'):
                 convert_xlsx_to_csv(file_path)
             elif choice == '6' and file_path.lower().endswith('.pdf'):
-                convert_pdf_to_images(file_path)
-            elif choice == '7' and file_path.lower().endswith('.pdf'):
                 extract_text_from_pdf(file_path)
-            elif choice == '8' and file_path.lower().endswith('.docx'):
+            elif choice == '7' and file_path.lower().endswith('.docx'):
                 convert_docx_to_txt(file_path)
             else:
                 print("Invalid choice or unsupported file format.")
